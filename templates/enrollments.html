@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Mis matrículas | Nexo Academy{% endblock %}
+{% block content %}
+<section class="container py-5">
+	<p class="eyebrow">Tu historial</p>
+	<h1>Mis matrículas</h1>
+
+	<div class="mt-4">
+		{% for order in orders %}
+			<article class="order-card">
+				<div class="d-flex justify-content-between gap-3">
+					<div>
+						<span class="course-area">Orden #{{ order.id }}</span>
+						<h2>{{ order.created_at|date:'d/m/Y H:i' }}</h2>
+					</div>
+					<span class="status-badge status-{{ order.status|lower }}">
+						{{ order.get_status_display }}
+					</span>
+				</div>
+				<hr>
+				{% for item in order.items.all %}
+					<div class="d-flex justify-content-between">
+						<span>{{ item.course_title }} × {{ item.quantity }}</span>
+						<strong>${{ item.unit_price }}</strong>
+					</div>
+				{% endfor %}
+				<div class="order-total">Total: ${{ order.total }}</div>
+			</article>
+		{% empty %}
+			<div class="empty-state">Todavía no tienes matrículas.</div>
+		{% endfor %}
+	</div>
+</section>
+
+{% if purchase_success %}
+	<div class="modal fade" id="purchaseModal" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content purchase-modal">
+				<div class="modal-body text-center p-5">
+					<div class="purchase-check">✓</div>
+					<h2>Compra realizada</h2>
+					<p>Tu matrícula fue confirmada y los cupos quedaron reservados.</p>
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Continuar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+	{% if purchase_success %}
+		<script>
+			new bootstrap.Modal(document.getElementById('purchaseModal')).show();
+		</script>
+	{% endif %}
+{% endblock %}

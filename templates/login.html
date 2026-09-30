@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Ingresar | Nexo Academy{% endblock %}
+{% block content %}
+<section class="auth-section">
+	<div class="auth-card">
+		<p class="eyebrow">Acceso estudiante</p>
+		<h1>Continúa tu ruta</h1>
+		<form method="post">
+			{% csrf_token %}
+			<label class="form-label" for="username">Usuario</label>
+			<input class="form-control mb-3" id="username" name="username" required>
+			<label class="form-label" for="password">Contraseña</label>
+			<input class="form-control mb-4" id="password" name="password" type="password" required>
+			<button class="btn btn-primary w-100">Ingresar</button>
+		</form>
+		<p class="auth-switch">¿Aún no tienes cuenta? <a href="{% url 'register' %}">Crear cuenta</a></p>
+	</div>
+</section>
+{% endblock %}

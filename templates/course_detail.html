@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}{{ course.title }} | Nexo Academy{% endblock %}
+{% block content %}
+<section class="container py-5">
+	<a class="back-link" href="{% url 'courses' %}">← Volver al catálogo</a>
+
+	<div class="row g-5 mt-2">
+		<div class="col-lg-8">
+			<span class="course-area">{{ course.area.name }}</span>
+			<h1>{{ course.title }}</h1>
+			<p class="lead">{{ course.description }}</p>
+
+			<div class="detail-grid">
+				<div>
+					<small>Inicio</small>
+					<strong>{{ course.start_date }}</strong>
+				</div>
+				<div>
+					<small>Término</small>
+					<strong>{{ course.end_date }}</strong>
+				</div>
+				<div>
+					<small>Cupos disponibles</small>
+					<strong>{{ course.available_seats }}</strong>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-4">
+			<div class="enroll-panel">
+				<span class="course-area">Matrícula única</span>
+				<h2>${{ course.price }}</h2>
+
+				{% if user.is_authenticated %}
+					{% if purchased %}
+						<div class="selected-detail">
+							<span class="selected-mark static-mark purchased-mark">✓</span>
+							<p>Ya compraste este curso.</p>
+							<a class="btn btn-light w-100" href="{% url 'enrollments' %}">
+								Ver mis matrículas
+							</a>
+						</div>
+					{% elif in_cart %}
+						<div class="selected-detail">
+							<span class="selected-mark static-mark">✓</span>
+							<p>Este curso ya está en tu carro.</p>
+							<a class="btn btn-light w-100" href="{% url 'cart' %}">
+								Ver mi carro
+							</a>
+						</div>
+					{% else %}
+						<form method="post" action="{% url 'cart_add' course.pk %}">
+							{% csrf_token %}
+							<button class="btn btn-primary w-100">Agregar al carro</button>
+						</form>
+					{% endif %}
+				{% else %}
+					<p>Ingresa para reservar tu cupo.</p>
+					<a class="btn btn-primary w-100" href="{% url 'login' %}?next={{ request.path }}">
+						Ingresar
+					</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

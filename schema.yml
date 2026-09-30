@@ -1,0 +1,1005 @@
+openapi: 3.0.3
+info:
+  title: EdTech Cursos y Bootcamps API
+  version: 1.0.0
+  description: API para matrícula persistente de estudiantes y gestión académica.
+paths:
+  /api/areas/:
+    get:
+      operationId: areas_list
+      tags:
+      - areas
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Area'
+          description: ''
+    post:
+      operationId: areas_create
+      tags:
+      - areas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Area'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Area'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Area'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Area'
+          description: ''
+  /api/areas/{id}/:
+    get:
+      operationId: areas_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this area.
+        required: true
+      tags:
+      - areas
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Area'
+          description: ''
+    put:
+      operationId: areas_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this area.
+        required: true
+      tags:
+      - areas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Area'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Area'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Area'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Area'
+          description: ''
+    patch:
+      operationId: areas_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this area.
+        required: true
+      tags:
+      - areas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedArea'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedArea'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedArea'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Area'
+          description: ''
+    delete:
+      operationId: areas_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this area.
+        required: true
+      tags:
+      - areas
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/carrito/:
+    get:
+      operationId: carrito_list
+      tags:
+      - carrito
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+          description: ''
+    post:
+      operationId: carrito_create
+      tags:
+      - carrito
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cart'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cart'
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+          description: ''
+  /api/carrito/{id}/:
+    delete:
+      operationId: carrito_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this cart item.
+        required: true
+      tags:
+      - carrito
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/cursos/:
+    get:
+      operationId: cursos_list
+      parameters:
+      - in: query
+        name: area
+        schema:
+          type: integer
+      - in: query
+        name: price__gte
+        schema:
+          type: number
+      - in: query
+        name: price__lte
+        schema:
+          type: number
+      - in: query
+        name: start_date__gte
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: start_date__lte
+        schema:
+          type: string
+          format: date
+      tags:
+      - cursos
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+          description: ''
+    post:
+      operationId: cursos_create
+      tags:
+      - cursos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Course'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Course'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+  /api/cursos/{id}/:
+    get:
+      operationId: cursos_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this course.
+        required: true
+      tags:
+      - cursos
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+    put:
+      operationId: cursos_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this course.
+        required: true
+      tags:
+      - cursos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Course'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Course'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+    patch:
+      operationId: cursos_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this course.
+        required: true
+      tags:
+      - cursos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCourse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCourse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCourse'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+    delete:
+      operationId: cursos_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this course.
+        required: true
+      tags:
+      - cursos
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/mis-matriculas/:
+    get:
+      operationId: mis_matriculas_list
+      tags:
+      - mis-matriculas
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Enrollment'
+          description: ''
+  /api/mis-matriculas/{id}/:
+    get:
+      operationId: mis_matriculas_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this enrollment.
+        required: true
+      tags:
+      - mis-matriculas
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enrollment'
+          description: ''
+  /api/ordenes/:
+    get:
+      operationId: ordenes_list
+      tags:
+      - ordenes
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EnrollmentOrder'
+          description: ''
+  /api/ordenes/{id}/:
+    get:
+      operationId: ordenes_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this enrollment order.
+        required: true
+      tags:
+      - ordenes
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrollmentOrder'
+          description: ''
+  /api/ordenes/{id}/estado/:
+    patch:
+      operationId: ordenes_estado_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this enrollment order.
+        required: true
+      tags:
+      - ordenes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEnrollmentOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEnrollmentOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEnrollmentOrder'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrollmentOrder'
+          description: ''
+  /api/ordenes/checkout/:
+    post:
+      operationId: ordenes_checkout_create
+      tags:
+      - ordenes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnrollmentOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EnrollmentOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EnrollmentOrder'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrollmentOrder'
+          description: ''
+  /api/schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - ht
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/token/:
+    post:
+      operationId: token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleTokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RoleTokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RoleTokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleTokenObtainPair'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+components:
+  schemas:
+    Area:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 120
+        description:
+          type: string
+      required:
+      - id
+      - name
+    Cart:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - items
+      - updated_at
+    CartItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        course:
+          type: integer
+        course_title:
+          type: string
+          readOnly: true
+        unit_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          readOnly: true
+        quantity:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+      required:
+      - course
+      - course_title
+      - id
+      - unit_price
+    Course:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        area:
+          type: integer
+        area_name:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          maxLength: 180
+        description:
+          type: string
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        capacity:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        available_seats:
+          type: integer
+          readOnly: true
+        is_active:
+          type: boolean
+      required:
+      - area
+      - area_name
+      - available_seats
+      - description
+      - end_date
+      - id
+      - price
+      - start_date
+      - title
+    Enrollment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        course:
+          type: integer
+          readOnly: true
+        course_title:
+          type: string
+          readOnly: true
+        order:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - course
+      - course_title
+      - created_at
+      - id
+      - order
+    EnrollmentOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
+        total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - items
+      - status
+      - total
+      - updated_at
+    OrderItem:
+      type: object
+      properties:
+        course:
+          type: integer
+        course_title:
+          type: string
+          maxLength: 180
+        unit_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        quantity:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+      required:
+      - course
+      - course_title
+      - unit_price
+    PatchedArea:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 120
+        description:
+          type: string
+    PatchedCourse:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        area:
+          type: integer
+        area_name:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          maxLength: 180
+        description:
+          type: string
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        capacity:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        available_seats:
+          type: integer
+          readOnly: true
+        is_active:
+          type: boolean
+    PatchedEnrollmentOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
+        total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    RoleTokenObtainPair:
+      type: object
+      description: Añade el rol de negocio para que DRF pueda aplicar autorización
+        RBAC.
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - password
+      - username
+    StatusEnum:
+      enum:
+      - PENDING
+      - PAID
+      - COMPLETED
+      - CANCELLED
+      type: string
+      description: |-
+        * `PENDING` - Pendiente
+        * `PAID` - Pagado
+        * `COMPLETED` - Completado
+        * `CANCELLED` - Cancelado
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

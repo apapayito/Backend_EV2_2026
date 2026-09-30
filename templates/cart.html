@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Mi carro | Nexo Academy{% endblock %}
+{% block content %}
+<section class="container py-5">
+	<p class="eyebrow">Reserva persistente</p>
+	<h1>Mi carro</h1>
+
+	<div class="row g-4 mt-2">
+		<div class="col-lg-8">
+			{% for item in items %}
+				<div class="cart-item">
+					<div>
+						<span class="course-area">{{ item.course.area.name }}</span>
+						<h3>{{ item.course.title }}</h3>
+						<p>{{ item.quantity }} cupo(s) · ${{ item.course.price }} cada uno</p>
+					</div>
+					<form method="post" action="{% url 'cart_remove' item.pk %}">
+						{% csrf_token %}
+						<button class="btn btn-outline-danger btn-sm">Quitar</button>
+					</form>
+				</div>
+			{% empty %}
+				<div class="empty-state">
+					Tu carro está vacío. <a href="{% url 'courses' %}">Explora el catálogo.</a>
+				</div>
+			{% endfor %}
+		</div>
+
+		<div class="col-lg-4">
+			<div class="summary-panel">
+				<span>Total estimado</span>
+				<strong>${{ total }}</strong>
+				<form method="post" action="{% url 'checkout' %}">
+					{% csrf_token %}
+					<button class="btn btn-primary w-100" {% if not items %}disabled{% endif %}>
+						Confirmar matrícula
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

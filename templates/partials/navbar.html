@@ -1,0 +1,10 @@
+<nav class="navbar navbar-expand-lg navbar-dark site-navbar">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="{% url 'home' %}">NEXO<span>ACADEMY</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Abrir navegación"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0"><li class="nav-item"><a class="nav-link" href="{% url 'courses' %}">Cursos</a></li>{% if user.is_authenticated %}<li class="nav-item"><a class="nav-link" href="{% url 'enrollments' %}">Mis matrículas</a></li>{% endif %}</ul>
+            <div class="d-flex align-items-center gap-2">{% if user.is_authenticated %}<a class="btn btn-outline-light btn-sm" href="{% url 'cart' %}">Mi carro</a><span class="user-chip">{{ user.username }}</span><a class="btn btn-light btn-sm" href="{% url 'logout' %}">Salir</a>{% else %}<a class="btn btn-light btn-sm" href="{% url 'login' %}">Ingresar</a>{% endif %}</div>
+        </div>
+    </div>
+</nav>

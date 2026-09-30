@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Página no encontrada | Nexo Academy{% endblock %}
+{% block content %}
+<section class="not-found-section">
+    <div class="not-found-card">
+        <span class="not-found-code">404</span>
+        <p class="eyebrow">Ruta no disponible</p>
+        <h1>Esta página no existe.</h1>
+        <p>No encontramos la dirección que escribiste. Serás redirigido al inicio en unos segundos.</p>
+        <a class="btn btn-primary" href="{% url 'home' %}">Volver al inicio</a>
+    </div>
+</section>
+<meta http-equiv="refresh" content="4;url={% url 'home' %}">
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}Nexo Academy | Aprende con dirección{% endblock %}
+{% block content %}
+<section class="hero-section">
+	<div class="container py-5">
+		<div class="row align-items-center min-vh-50 g-5">
+			<div class="col-lg-7">
+				<p class="eyebrow">Academia tecnológica · 2026</p>
+				<h1>Aprende habilidades que abren la siguiente puerta.</h1>
+				<p class="hero-copy">Cursos intensivos, proyectos reales y una comunidad que te acompaña desde la primera línea de código.</p>
+				<a class="btn btn-primary btn-lg" href="{% url 'courses' %}">Explorar cursos</a>
+			</div>
+			<div class="col-lg-5">
+				<div class="hero-note">
+					<span class="note-label">Próxima cohorte</span>
+					<strong>Backend con Django</strong>
+					<span>Arquitectura, APIs y despliegue</span>
+					<a href="{% url 'courses' %}">Ver disponibilidad →</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="container py-5">
+	<div class="section-heading d-flex justify-content-between align-items-end mb-4">
+		<div>
+			<p class="eyebrow">Aprendizaje curado</p>
+			<h2>Encuentra tu próximo desafío</h2>
+		</div>
+		<a href="{% url 'courses' %}" class="link-arrow">Ver catálogo →</a>
+	</div>
+
+	<div class="row g-4">
+		{% for course in courses %}
+			<div class="col-md-6 col-lg-4">
+				<article class="course-card {% if course.id in cart_course_ids or course.id in purchased_course_ids %}course-selected{% endif %}">
+					{% if course.id in purchased_course_ids %}
+						<span class="selected-mark purchased-mark" title="Curso comprado">✓</span>
+					{% elif course.id in cart_course_ids %}
+						<span class="selected-mark" title="Curso seleccionado">✓</span>
+					{% endif %}
+
+					<a class="course-card-link" href="{% url 'course_detail' course.pk %}">
+						<span class="course-area">{{ course.area.name }}</span>
+						<h3>{{ course.title }}</h3>
+						<p>{{ course.description|truncatewords:18 }}</p>
+						<span class="course-meta">{{ course.available_seats }} cupos · ${{ course.price }}</span>
+					</a>
+
+					{% if user.is_authenticated %}
+						{% if course.id in purchased_course_ids %}
+							<button class="btn btn-outline-secondary w-100 mt-3" disabled>Comprado</button>
+						{% elif course.id in cart_course_ids %}
+							<button class="btn btn-outline-secondary w-100 mt-3" disabled>En tu carro</button>
+						{% else %}
+							<form method="post" action="{% url 'cart_add' course.pk %}" class="mt-3">
+								{% csrf_token %}
+								<button class="btn btn-primary w-100">Agregar al carro</button>
+							</form>
+						{% endif %}
+					{% else %}
+						<a class="btn btn-primary w-100 mt-3" href="{% url 'login' %}?next={% url 'course_detail' course.pk %}">
+							Ingresar para agregar
+						</a>
+					{% endif %}
+				</article>
+			</div>
+		{% empty %}
+			<p>Aún no hay cursos publicados.</p>
+		{% endfor %}
+	</div>
+</section>
+{% endblock %}

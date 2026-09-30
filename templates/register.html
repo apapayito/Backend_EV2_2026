@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Crear cuenta | Nexo Academy{% endblock %}
+{% block alerts %}{% endblock %}
+{% block content %}
+<section class="auth-section">
+	<div class="auth-card">
+		<p class="eyebrow">Nueva cuenta</p>
+		<h1>Empieza tu ruta</h1>
+		<p class="text-muted">Crea tu cuenta de estudiante para guardar cursos y matrículas.</p>
+
+		{% if messages %}
+			<div class="register-alerts">
+				{% for message in messages %}
+					<div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %} alert-dismissible fade show" role="alert">
+						{{ message }}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+					</div>
+				{% endfor %}
+			</div>
+		{% endif %}
+
+		<form method="post">
+			{% csrf_token %}
+			<label class="form-label" for="username">Nombre de usuario</label>
+			<input class="form-control mb-3" id="username" name="username" autocomplete="username" required>
+			<label class="form-label" for="email">Correo electrónico</label>
+			<input class="form-control mb-3" id="email" name="email" type="email" autocomplete="email" required>
+			<label class="form-label" for="password">Contraseña</label>
+			<input class="form-control mb-3" id="password" name="password" type="password" autocomplete="new-password" required>
+			<label class="form-label" for="password_confirmation">Repetir contraseña</label>
+			<input class="form-control mb-4" id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" required>
+			<button class="btn btn-primary w-100">Crear cuenta</button>
+		</form>
+
+		<p class="auth-switch">¿Ya tienes cuenta? <a href="{% url 'login' %}">Ingresar</a></p>
+	</div>
+</section>
+{% endblock %}
